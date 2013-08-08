@@ -1,20 +1,8 @@
 <?php
-  if ($stmt = $mysqli->prepare("UPDATE tblFacilityHrs SET title =?, description = ? WHERE uid = ?")){
-        $stmt->bind_param('sss', $title, $desc, $uid2);
-		//Get params
-		$title=$_POST['title'];
-		$desc=$_POST['description'];
-		$uid2=$_GET['uid'];
-		$stmt->execute();
-        $stmt->close();
-    }
-    else {
-        //Error
-        printf("Prep statment failed: %s\n", $mysqli->error);
-    }
-	
-	
-
+/**
+ * INSERT PREPARE MYSQLI
+ */
+ 
 /* Create the prepared statement */
 if ($stmt = $mysqli->prepare("INSERT INTO CodeCall (FirstName, LastName) values (?, ?)")) {
 
@@ -37,35 +25,48 @@ printf("Prepared Statement Error: %s\n", $mysqli->error);
 }
 
 
+/**
+ * UPDATE PREPARE MYSQLI
+ */
 
-   /* Create a prepared statement */
-   if($stmt = $mysqli -> prepare("SELECT priv FROM testUsers WHERE username=?
-   AND password=?")) {
+  if ($stmt = $mysqli->prepare("UPDATE tblFacilityHrs SET title =?, description = ? WHERE uid = ?")){
+        $stmt->bind_param('sss', $title, $desc, $uid2);
+		//Get params
+		$title=$_POST['title'];
+		$desc=$_POST['description'];
+		$uid2=$_GET['uid'];
+		$stmt->execute();
+        $stmt->close();
+    }
+    else {
+        //Error
+        printf("Prep statment failed: %s\n", $mysqli->error);
+    }
+	
 
-      /* Bind parameters
-         s - string, b - blob, i - int, etc */
-      $stmt -> bind_param("ss", $user, $pass);
-	  
-	  /* Set our params */
-	  $firstName = "Jordan";
-	  $lastName = "DeLozier";
+/**
+ * SELECT PREPARE MYSQLI
+ */
+ 
+ 
+   /* Create the prepared statement */
+	if ($stmt = $mysqli->prepare("SELECT FirstName,LastName FROM CodeCall ORDER BY LastName")) {
+	/* Execute the prepared Statement */
+	$stmt->execute();
 
-      /* Execute it */
-      $stmt -> execute();
+	/* Bind results to variables */
+	$stmt->bind_result($firstName, $lastName);
 
-      /* Bind results */
-      $stmt -> bind_result($result);
+	/* fetch values */
+	while ($stmt->fetch()) {
+	printf("%s %s\n", $lastName, $firstName);
+	}
 
-      /* Fetch the value */
-      $stmt -> fetch();
+	/* Close the statement */
+	$stmt->close();
 
-      echo $user . "'s level of priviledges is " . $result;
-
-      /* Close statement */
-      $stmt -> close();
-   }
-   else {
+	}
+	else {
 	/* Error */
 	printf("Prepared Statement Error: %s\n", $mysqli->error);
 	}
-?>
