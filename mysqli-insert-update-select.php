@@ -50,7 +50,11 @@ printf("Prepared Statement Error: %s\n", $mysqli->error);
  
  
    /* Create the prepared statement */
-	if ($stmt = $mysqli->prepare("SELECT FirstName,LastName FROM CodeCall ORDER BY LastName")) {
+	if ($stmt = $mysqli->prepare("SELECT FirstName,LastName FROM CodeCall WHERE Gender=? ORDER BY LastName")) {
+	
+	$stmt->bind_param('s', $gender);
+	//Get params
+	$gender="Male";
 	/* Execute the prepared Statement */
 	$stmt->execute();
 
