@@ -1,8 +1,6 @@
 /**
  *SESSION HIJACKING AVOID
  */
-
-
 <?php
 
 session_start();
@@ -19,5 +17,3 @@ else
 {
     $_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
 }
-
-?>
